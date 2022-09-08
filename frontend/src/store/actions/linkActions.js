@@ -22,8 +22,8 @@ export const getLink = () => {
             dispatch(fetchLinkRequest());
 
             const response = await axiosApi(`/links`);
-
-            dispatch(fetchLinkSuccess(response.data));
+            console.log(response.data);
+            // dispatch(fetchLinkSuccess(response.data));
         } catch (e) {
             dispatch(fetchLinkFailure(e.message));
         }

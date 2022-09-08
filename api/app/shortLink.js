@@ -18,9 +18,12 @@ router.post('/', async (req, res) => {
     }
 
     const link = {
-        originalUrl: req.body.shortUrl,
+        originalUrl: req.body.originalUrl,
         shortUrl: nanoid(),
     };
+
+    const newLink = new Link(link);
+    await newLink.save();
 
     res.send(link);
 });
