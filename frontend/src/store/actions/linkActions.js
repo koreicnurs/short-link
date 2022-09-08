@@ -1,11 +1,45 @@
-import React from 'react';
+import axiosApi from "../../axiosApi";
 
-const LinkActions = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+export const FETCH_LINK_REQUEST = 'FETCH_LINK_REQUEST';
+export const FETCH_LINK_SUCCESS = 'FETCH_LINK_SUCCESS';
+export const FETCH_LINK_FAILURE = 'FETCH_LINK_FAILURE';
+
+export const CREATE_LINK_REQUEST = 'CREATE_LINK_REQUEST';
+export const CREATE_LINK_SUCCESS = 'CREATE_LINK_SUCCESS';
+export const CREATE_LINK_FAILURE = 'CREATE_LINK_FAILURE';
+
+const fetchLinkRequest = () => ({type: FETCH_LINK_REQUEST});
+const fetchLinkSuccess = link => ({type: FETCH_LINK_SUCCESS, payload: link});
+const fetchLinkFailure = error => ({type: FETCH_LINK_FAILURE, payload: error});
+
+const createLinkRequest = () => ({type: CREATE_LINK_REQUEST});
+const createLinkSuccess = () => ({type: CREATE_LINK_SUCCESS});
+const createLinkFailure = error => ({type: CREATE_LINK_FAILURE, payload: error});
+
+export const getLink = () => {
+    return async dispatch => {
+        try {
+            dispatch(fetchLinkRequest());
+
+            const response = await axiosApi(`/links`);
+
+            dispatch(fetchLinkSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchLinkFailure(e.message));
+        }
+    }
 };
 
-export default LinkActions;
+export const createLink = (data) => {
+    return async dispatch => {
+        try {
+            dispatch(createLinkRequest());
+            await axiosApi.post('/links', data);
+            dispatch(createLinkSuccess());
+        } catch (e) {
+            dispatch(createLinkFailure(e.message));
+            throw e;
+        }
+    }
+};
+
