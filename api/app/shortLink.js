@@ -2,13 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 const {nanoid} = require('nanoid');
-const mongoDb = require('../mongoDb');
+const Link = require("../models/Link");
 
 router.get('/', async (req, res) => {
     try {
-        const db = await mongoDb.getDb();
-        const link = await db.collection('links').find();
-        res.send(link);
+        const links = await Link.find();
+        res.send(links);
     } catch {
         res.sendStatus(500);
     }

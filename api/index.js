@@ -1,8 +1,8 @@
 const express = require('express');
-const mongoDb = require('./mongoDb');
 const cors = require('cors');
-
+const mongoose = require('mongoose');
 const links = require('./app/shortLink');
+const config = require('./config')
 
 const app = express();
 const port = 8000;
@@ -14,14 +14,14 @@ app.use(cors());
 app.use('/links', links);
 
 const run = async () => {
-    await mongoDb.connect();
+    await mongoose.connect(config.mongo.db, config.mongo.options) ;
 
     app.listen(port, () => {
         console.log(`Server started on ${port} port!`);
     });
 
     process.on('exit', () => {
-        mongoDb.disconnect();
+        mongoose.disconnect();
         console.log('MongoDb disconnected');
     });
 };
