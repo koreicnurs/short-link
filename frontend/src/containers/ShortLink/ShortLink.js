@@ -14,15 +14,15 @@ const ShortLink = () => {
         dispatch(getLink());
     }, [])
 
-    const submitFormHandler = e => {
+    const submitFormHandler = async e => {
         e.preventDefault();
-        const formData = new FormData();
+        // const formData = new FormData();
+        //
+        // Object.keys(state).forEach(key => {
+        //     formData.append(key, state[key]);
+        // });
 
-        Object.keys(state).forEach(key => {
-            formData.append(key, state[key]);
-        });
-
-        dispatch(createLink(formData));
+        dispatch(createLink(state));
     };
 
     const inputChangeHandler = e => {

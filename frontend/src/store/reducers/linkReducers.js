@@ -10,7 +10,6 @@ import {
 
 const initialState = {
     link: [],
-    oneNews: null,
     loading: false,
     error: null,
 };
