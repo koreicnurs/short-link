@@ -7,7 +7,7 @@ const ShortLink = () => {
     const dispatch = useDispatch();
 
     const [state, setState] = useState({
-        link: "",
+        originalUrl: "",
     });
 
     const submitFormHandler = e => {
@@ -56,8 +56,8 @@ const ShortLink = () => {
                         fullWidth
                         variant="outlined"
                         label="Link"
-                        name="link"
-                        value={state.link}
+                        name="originalUrl"
+                        value={state.originalUrl}
                         onChange={inputChangeHandler}
                     />
                 </Grid>

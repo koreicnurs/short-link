@@ -1,7 +1,6 @@
 const express = require('express');
-
 const router = express.Router();
-const {nanoid} = require('nanoid');
+const {nanoid, customAlphabet} = require('nanoid');
 const Link = require("../models/Link");
 
 router.get('/', async (req, res) => {
@@ -13,20 +12,17 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/',  async (req, res) => {
-    if (!req.body.message || !req.body.news_id) {
+router.post('/', async (req, res) => {
+    if (!req.body.originalUrl) {
         return res.status(400).send({error: 'Something are missing'});
     }
 
-    const comment = {
-        author: req.body.author,
-        message: req.body.message,
-        news_id: req.body.news_id
+    const link = {
+        originalUrl: req.body.shortUrl,
+        shortUrl: nanoid(),
     };
 
-    res.send({
-        ...comment,
-    });
+    res.send(link);
 });
 
 module.exports = router;
