@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {nanoid, customAlphabet} = require('nanoid');
+const {nanoid} = require('nanoid');
 const Link = require("../models/Link");
 
-router.get('/', async (req, res) => {
+router.get('/:shortUrl', async (req, res) => {
     try {
-        const links = await Link.find();
-        res.send(links);
+        const links = await Link.findOne({shortUrl: req.params.shortUrl});
+        if(links) {
+            res.status(301).redirect(links.originalUrl);
+        } else {
+            res.status(400).send({error: 'didnt find shortUrl'});
+        }
     } catch {
         res.sendStatus(500);
     }
@@ -19,7 +23,7 @@ router.post('/', async (req, res) => {
 
     const link = {
         originalUrl: req.body.originalUrl,
-        shortUrl: nanoid(),
+        shortUrl: nanoid(6),
     };
 
     const newLink = new Link(link);

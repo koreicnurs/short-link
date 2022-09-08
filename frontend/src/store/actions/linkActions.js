@@ -13,7 +13,7 @@ const fetchLinkSuccess = link => ({type: FETCH_LINK_SUCCESS, payload: link});
 const fetchLinkFailure = error => ({type: FETCH_LINK_FAILURE, payload: error});
 
 const createLinkRequest = () => ({type: CREATE_LINK_REQUEST});
-const createLinkSuccess = () => ({type: CREATE_LINK_SUCCESS});
+const createLinkSuccess = link => ({type: CREATE_LINK_SUCCESS, payload: link});
 const createLinkFailure = error => ({type: CREATE_LINK_FAILURE, payload: error});
 
 export const getLink = () => {
@@ -21,9 +21,8 @@ export const getLink = () => {
         try {
             dispatch(fetchLinkRequest());
 
-            const response = await axiosApi(`/links`);
-            console.log(response.data);
-            // dispatch(fetchLinkSuccess(response.data));
+            const response = await axiosApi(`/`);
+            dispatch(fetchLinkSuccess(response.data));
         } catch (e) {
             dispatch(fetchLinkFailure(e.message));
         }
@@ -34,8 +33,8 @@ export const createLink = (data) => {
     return async dispatch => {
         try {
             dispatch(createLinkRequest());
-            await axiosApi.post('/links', data);
-            dispatch(createLinkSuccess());
+            const response = await axiosApi.post('/links', data);
+            dispatch(createLinkSuccess(response.data));
         } catch (e) {
             dispatch(createLinkFailure(e.message));
             throw e;
